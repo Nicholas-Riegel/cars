@@ -1,0 +1,45 @@
+name: Build and Push Backend Image
+
+# Run this workflow on every push to the main branch
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-push:
+    # This job will run on the latest version of Ubuntu
+    runs-on: ubuntu-latest
+
+    steps:
+      # ✅ Step 1: Check out your code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # ✅ Step 2: Log in to Docker Hub using your secrets
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      # ✅ Step 3: Build and push the image
+      - name: Build and Push Backend Image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./backend       # point to the backend directory
+          file: ./backend/Dockerfile
+          push: true
+          tags: riegelnick/cars-backend:latest
+      
+      - name: Deploy to VPS via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ~/cars
+            git pull origin main
+            docker compose pull backend
+            docker compose up -d backend
+
