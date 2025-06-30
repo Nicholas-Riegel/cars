@@ -1,13 +1,13 @@
-package com.riegelnick.backend.controller;
+package com.riegelnick.backend;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class HelloController {
+public class Controller {
 
-    @GetMapping("/api/hello")
+    @GetMapping("/hello")
     public String hello() {
-        return "Hello World from the backend!";
+        return "Hello from the new controller!";
     }
 }
