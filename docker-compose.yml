@@ -1,6 +1,8 @@
 version: '3.8'
+
 services:
   backend:
-    build: ./backend
+    image: riegelnick/cars-backend:latest
+    restart: always
     ports:
       - "8080:8080"
