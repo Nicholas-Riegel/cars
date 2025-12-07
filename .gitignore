@@ -1,0 +1,20 @@
+.env
+TODO.md
+PROJECT.md
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Docker
+docker-compose.override.yml
+
+# Logs
+*.log
+npm-debug.log*
