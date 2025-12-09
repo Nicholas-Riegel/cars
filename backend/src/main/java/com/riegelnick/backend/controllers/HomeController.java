@@ -12,7 +12,7 @@ public class HomeController {
     @Autowired
     HomeService homeService;
 
-    @GetMapping("/")
+    @GetMapping("/api/home")
     public String getHomePage() {
         return homeService.homePage();
     }
