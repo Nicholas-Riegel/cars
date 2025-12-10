@@ -1,29 +1,28 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 
 function App() {
 
-  const [message, setMessage] = useState('')
-  const [error, setError] = useState<string | null>(null)
+  const [messageState, setMessageState] = useState('')
+  const [errorState, setErrorState] = useState<string | null>(null)
 
   useEffect(() => {
-    axios.get('/api/home')
-      .then(response => {
-        setMessage(response.data)
-      })
-      .catch(error => {
-        console.error('Error fetching message:', error)
-        setError(error.message)
-      })
+    (async () => {
+      try {
+        const response = await axios.get('/api/home')
+        setMessageState(response.data)
+      } catch (err: unknown) {
+        setErrorState(err instanceof AxiosError ? err.message : 'An unknown error occurred')
+      }
+    })()
   }, [])
 
   return (
     <>
-      {error ? (
-        <p style={{ color: 'red' }}>{error}</p>
-      ) : (
-        <p>Backend says: <strong>{message}</strong></p>
-      )}
+      {errorState 
+        ? <p>{errorState}</p> 
+        : <p>Backend says: {messageState}</p>
+      }
     </>
   )
 }

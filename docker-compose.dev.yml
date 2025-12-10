@@ -34,7 +34,7 @@ services:
       - ./frontend:/app
       - /app/node_modules  # Don't overwrite node_modules
     ports:
-      - "3000:5173"  # Vite dev server port
+      - "3000:5173"  # host port (http://localhost:3000 maps to):container port (Vite default)
     environment:
       - CHOKIDAR_USEPOLLING=true  # For file watching in Docker
     depends_on:
