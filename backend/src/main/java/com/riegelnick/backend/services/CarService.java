@@ -32,6 +32,7 @@ public class CarService {
 
     // Update a car
     public Car updateCar(Long id, Car carDetails) {
+        
         Car car = carRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Car not found"));
         

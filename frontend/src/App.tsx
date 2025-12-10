@@ -3,14 +3,22 @@ import axios, { AxiosError } from 'axios'
 
 function App() {
 
-	const [messageState, setMessageState] = useState('')
+	type Car = {
+		id: number
+		make: string
+		model: string
+		year: number
+		description: string
+	}
+
+	const [carsState, setCarsState] = useState<Car[]>([])
 	const [errorState, setErrorState] = useState<string | null>(null)
 
 	useEffect(() => {
 		(async () => {
 			try {
-				const response = await axios.get('/api/home')
-				setMessageState(response.data)
+				const response = await axios.get('/api/cars')
+				setCarsState(response.data)
 			} catch (err: unknown) {
 				setErrorState(err instanceof AxiosError ? err.message : 'An unknown error occurred')
 			}
@@ -20,8 +28,14 @@ function App() {
 	return (
 		<>
 			{errorState 
-				? <p>{errorState}</p> 
-				: <p>Backend says: {messageState}</p>
+				? <p>{errorState}</p>
+				: (carsState.map((car) => (
+						<div key={car.id}>
+							{car.year} {car.make} {car.model}: {car.description}
+							{/* {JSON.stringify(car)} */}
+						</div>
+					))
+				)
 			}
 		</>
 	)
