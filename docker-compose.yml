@@ -24,9 +24,7 @@ services:
       - "5432:5432"
 
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    image: riegelnick/cars-frontend:latest
     restart: always
     ports:
       - "80:80"

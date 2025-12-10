@@ -1,4 +1,4 @@
-name: Build and Push Backend Image
+name: Build and Push Docker Images
 
 # Run this workflow on every push to the main branch
 on:
@@ -22,15 +22,25 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      # ✅ Step 3: Build and push the image
+      # ✅ Step 3: Build and push the backend image
       - name: Build and Push Backend Image
         uses: docker/build-push-action@v4
         with:
-          context: ./backend       # point to the backend directory
+          context: ./backend
           file: ./backend/Dockerfile
           push: true
           tags: riegelnick/cars-backend:latest
+
+      # ✅ Step 4: Build and push the frontend image
+      - name: Build and Push Frontend Image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          push: true
+          tags: riegelnick/cars-frontend:latest
       
+      # ✅ Step 5: Deploy to VPS via SSH
       - name: Deploy to VPS via SSH
         uses: appleboy/ssh-action@v1.0.0
         with:
@@ -40,6 +50,6 @@ jobs:
           script: |
             cd ~/cars
             git pull origin main
-            docker compose pull backend
-            docker compose up -d backend
+            docker compose pull
+            docker compose up -d
 
