@@ -30,6 +30,7 @@ jobs:
           file: ./backend/Dockerfile
           push: true
           tags: riegelnick/cars-backend:latest
+          no-cache: true
 
       # ✅ Step 4: Build and push the frontend image
       - name: Build and Push Frontend Image

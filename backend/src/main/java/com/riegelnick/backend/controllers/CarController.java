@@ -2,9 +2,12 @@ package com.riegelnick.backend.controllers;
 
 import com.riegelnick.backend.entities.Car;
 import com.riegelnick.backend.services.CarService;
+import com.riegelnick.backend.services.FileStorageService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -15,12 +18,41 @@ public class CarController {
     @Autowired
     private CarService carService;
 
-    // Create a new car
-    @PostMapping
-    public Car createCar(@RequestBody Car car) {
-        return carService.createCar(car);
+    @Autowired
+    private FileStorageService fileStorageService;
+
+    // Create a new car without image
+    @PostMapping("/upload-without-image")
+    public ResponseEntity<Car> createCarWithoutImage(@RequestBody Car car) {
+        Car savedCar = carService.createCar(car);
+        return ResponseEntity.ok(savedCar);
     }
     
+    // Create a new car with image
+    @PostMapping("/upload-with-image")
+    public ResponseEntity<Car> createCarWithImage(
+        @RequestParam("make") String make,
+        @RequestParam("model") String model,
+        @RequestParam(value = "year", required = false) Integer year,
+        @RequestParam(value = "description", required = false) String description,
+        @RequestParam(value = "file", required = false) MultipartFile file
+    ) {
+        try {
+            
+            String filename = null;
+            if (file != null && !file.isEmpty()) {
+                filename = fileStorageService.storeFile(file);
+            }
+
+            Car car = new Car(make, model, year, description, filename);
+            Car savedCar = carService.createCar(car);
+            
+            return ResponseEntity.ok(savedCar);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     // Get all cars
     @GetMapping
     public List<Car> getAllCars() {

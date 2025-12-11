@@ -48,6 +48,9 @@ public class CarService {
         if (carDetails.getDescription() != null) {
             car.setDescription(carDetails.getDescription());
         }
+        if (carDetails.getImagePath() != null) {
+            car.setImagePath(carDetails.getImagePath());
+        }
         
         return carRepository.save(car);
     }

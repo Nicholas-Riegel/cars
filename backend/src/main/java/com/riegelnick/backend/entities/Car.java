@@ -24,24 +24,26 @@ public class Car {
     @Column(length = 1000)
     private String description;
 
+    @Column(name = "image_path")
+    private String imagePath;
+ 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Column(name = "image_path")
-    private String imagePath;
 
     // Constructors
     public Car() {
     }
 
-    public Car(String make, String model, Integer year, String description) {
+    public Car(String make, String model, Integer year, String description, String imagePath) {
         this.make = make;
         this.model = model;
         this.year = year;
         this.description = description;
+        this.imagePath = imagePath;
     }
 
     // Lifecycle callbacks

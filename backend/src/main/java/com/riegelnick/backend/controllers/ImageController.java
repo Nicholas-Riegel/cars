@@ -21,7 +21,7 @@ public class ImageController {
 
     // Upload an image
     // @RequestParam("file") binds the "file" field in the multipart/form-data request to the MultipartFile parameter
-    @PostMapping("/upload")
+    @PostMapping
     public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
         String filename = fileStorageService.storeFile(file);
         return ResponseEntity.ok(filename);
@@ -30,7 +30,9 @@ public class ImageController {
     // Serve/retrieve an image
     @GetMapping("/{filename}")
     public ResponseEntity<Resource> getImage(@PathVariable String filename) {
+        
         try {
+
             Path filePath = Paths.get("uploads").resolve(filename).normalize();
             Resource resource = new UrlResource(filePath.toUri());
             
@@ -41,6 +43,7 @@ public class ImageController {
             } else {
                 return ResponseEntity.notFound().build();
             }
+            
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
