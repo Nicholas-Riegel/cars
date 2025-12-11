@@ -30,6 +30,9 @@ public class Car {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Column(name = "image_path")
+    private String imagePath;
+
     // Constructors
     public Car() {
     }
@@ -102,5 +105,13 @@ public class Car {
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 }

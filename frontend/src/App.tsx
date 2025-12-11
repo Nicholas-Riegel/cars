@@ -29,12 +29,15 @@ function App() {
 		<>
 			{errorState 
 				? <p>{errorState}</p>
-				: (carsState.map((car) => (
-						<div key={car.id}>
-							{car.year} {car.make} {car.model}: {car.description}
-							{/* {JSON.stringify(car)} */}
-						</div>
-					))
+				: (
+					<ul>
+						{carsState.map((car) => (
+							<li key={car.id}>
+								{car.year} {car.make} {car.model}: {car.description}
+								{/* {JSON.stringify(car)} */}
+							</li>
+						))}
+					</ul>
 				)
 			}
 		</>
