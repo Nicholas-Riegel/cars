@@ -9,6 +9,7 @@ function HomePage() {
 		model: string
 		year: number
 		description: string
+        imagePath: string
 	}
 
 	const [carsState, setCarsState] = useState<Car[]>([])
@@ -34,7 +35,8 @@ function HomePage() {
 						{carsState.map((car) => (
 							<li key={car.id}>
 								{car.make} {car.model} {car.year}: {car.description}
-								{/* {JSON.stringify(car)} */}
+                                <br />
+								<img src={`/api/images/${car.imagePath}`} alt={`${car.make} ${car.model}`} width="200" />
 							</li>
 						))}
 					</ul>
