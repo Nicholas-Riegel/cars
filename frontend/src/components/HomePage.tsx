@@ -36,7 +36,11 @@ function HomePage() {
 							<li key={car.id}>
 								{car.make} {car.model} {car.year}: {car.description}
                                 <br />
-								<img src={`/api/images/${car.imagePath}`} alt={`${car.make} ${car.model}`} width="200" />
+								<img 
+									src={`/api/images/${car.imagePath}`} 
+									alt={`${car.make} ${car.model}`} 
+									width="200" 
+								/>
 							</li>
 						))}
 					</ul>
