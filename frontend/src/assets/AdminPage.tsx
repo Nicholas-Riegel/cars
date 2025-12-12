@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import axios from 'axios'
 
 function AdminPage() {
@@ -8,6 +8,7 @@ function AdminPage() {
     const [year, setYear] = useState('')
     const [description, setDescription] = useState('')
     const [file, setFile] = useState<File | null>(null)
+    const fileInputRef = useRef<HTMLInputElement>(null)
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -30,6 +31,8 @@ function AdminPage() {
             setModel('')
             setYear('')
             setDescription('')
+            // Clear the file input
+            if (fileInputRef.current) fileInputRef.current.value = ''
             setFile(null)
         } catch (err) {
             console.error(err)
@@ -68,6 +71,7 @@ function AdminPage() {
             />
             <br />
             <input 
+                ref={fileInputRef}
                 type="file" 
                 accept="image/*"
                 onChange={(e) => setFile(e.target.files?.[0] || null)}

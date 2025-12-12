@@ -1,6 +1,6 @@
 import { Routes, Route, Link } from 'react-router-dom'
 import HomePage from './assets/HomePage'
-import AdminPage from './assets/AdminPage'
+// import AdminPage from './assets/AdminPage'
 
 function App() {
 
@@ -8,11 +8,11 @@ function App() {
 		<>
 			<nav>
 				<Link to="/">Home</Link> 
-				<Link to="/admin">Admin</Link>
+				{/* <Link to="/admin">Admin</Link> */}
 			</nav>
 			<Routes>
 				<Route path="/" element={< HomePage/>} />
-				<Route path="/admin" element={< AdminPage />} />
+				{/* <Route path="/admin" element={< AdminPage />} /> */}
 			</Routes>
 		</>
 	)
