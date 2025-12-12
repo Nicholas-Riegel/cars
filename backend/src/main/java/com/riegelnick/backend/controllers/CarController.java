@@ -48,6 +48,7 @@ public class CarController {
             Car savedCar = carService.createCar(car);
             
             return ResponseEntity.ok(savedCar);
+
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
@@ -69,10 +70,26 @@ public class CarController {
     
     // Update a car
     @PatchMapping("/{id}")
-    public ResponseEntity<Car> updateCar(@PathVariable Long id, @RequestBody Car carDetails) {
+    public ResponseEntity<Car> updateCar(
+        @PathVariable Long id, 
+        @RequestParam(value = "make", required = false) String make,
+        @RequestParam(value = "model", required = false) String model,
+        @RequestParam(value = "year", required = false) Integer year,
+        @RequestParam(value = "description", required = false) String description,
+        @RequestParam(value = "file", required = false) MultipartFile file
+    ) {
         try {
-            Car updatedCar = carService.updateCar(id, carDetails);
+            
+            String filename = null;
+            if (file != null && !file.isEmpty()) {
+                filename = fileStorageService.storeFile(file);
+            }
+
+            Car car = new Car(make, model, year, description, filename);
+            Car updatedCar = carService.updateCar(id, car);
+            
             return ResponseEntity.ok(updatedCar); // Returns ResponseEntity<Car>
+
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build(); // Java infers: "This must be ResponseEntity<Car> because that's what the method returns"
         }
