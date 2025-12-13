@@ -52,7 +52,7 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
     
-    // Spring Security requires this method
+    // Spring Security requires this method to load user details by username (email)
     @Override
     public UserDetails loadUserByUsername(String email) {
         
@@ -60,7 +60,7 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findByEmail(email)
             .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         
-            // Return UserDetails object
+        // Return UserDetails object
         return org.springframework.security.core.userdetails.User
             .withUsername(user.getEmail())
             .password(user.getPassword())
