@@ -47,11 +47,11 @@ public class JwtUtil {
      */
     public String generateToken(String username){
         return Jwts.builder()
-                .setSubject(username)  // "sub" claim: who the token is for
-                .setIssuedAt(new Date(System.currentTimeMillis()))  // "iat" claim: when token was created
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))  // "exp" claim: when token expires
-                .signWith(SECRET_KEY)  // Sign with secret key to prevent tampering
-                .compact();  // Build the final JWT string
+            .setSubject(username)  // "sub" claim: who the token is for
+            .setIssuedAt(new Date(System.currentTimeMillis()))  // "iat" claim: when token was created
+            .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))  // "exp" claim: when token expires
+            .signWith(SECRET_KEY)  // Sign with secret key to prevent tampering
+            .compact();  // Build the final JWT string
     }
 
     /**
@@ -89,7 +89,7 @@ public class JwtUtil {
      * @throws io.jsonwebtoken.JwtException if token is invalid or tampered with
      */
     private Claims extractAllClaims(String token) {
-    return Jwts.parserBuilder()
+        return Jwts.parserBuilder()
             .setSigningKey(SECRET_KEY)  // Use same key that was used to sign the token
             .build()
             .parseClaimsJws(token)  // Parse and verify the token
