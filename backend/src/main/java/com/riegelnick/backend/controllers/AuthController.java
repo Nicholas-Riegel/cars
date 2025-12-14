@@ -1,6 +1,7 @@
 package com.riegelnick.backend.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.riegelnick.backend.entities.User;
+import com.riegelnick.backend.repositories.UserRepository;
 import com.riegelnick.backend.services.UserService;
 import com.riegelnick.backend.utils.JwtUtil;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,20 +30,31 @@ public class AuthController {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody User user) {
-        
-        try {
+    @Autowired
+    private UserRepository userRepository;
 
-            User registeredUser = userService.registerUser(user);
-            return ResponseEntity.ok("User registered successfully");
+    @Value("${ADMIN_FIRSTNAME}")
+    private String adminFirstName;
 
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+    @Value("${ADMIN_LASTNAME}")
+    private String adminLastName;
+
+    @Value("${ADMIN_EMAIL}")
+    private String adminEmail;
+
+    @Value("${ADMIN_PASSWORD}")
+    private String adminPassword;
+
+    @PostMapping("/setup-admin")  // Only call this once!
+    public ResponseEntity<String> setupAdmin() {
+        if (userRepository.count() > 0) {
+            return ResponseEntity.badRequest().body("Admin already exists");
         }
-        
+        User admin = new User(adminFirstName, adminLastName, adminEmail, adminPassword, "ADMIN");
+        userService.registerUser(admin);
+        return ResponseEntity.ok("Admin created");
     }
-
+    
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestBody LoginRequest loginRequest) {
         try {
@@ -76,6 +89,7 @@ public class AuthController {
     }
     
     // Inner class for login request payload
+    // Static so it can be used without an instance of AuthController
     public static class LoginRequest {
 
         private String email;

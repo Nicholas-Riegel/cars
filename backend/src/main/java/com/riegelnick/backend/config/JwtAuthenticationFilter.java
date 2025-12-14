@@ -45,6 +45,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
     private UserService userService;
 
     /**
+     * Skip JWT validation for public endpoints like login and setup-admin.
+     * These endpoints don't need authentication.
+     */
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getRequestURI();
+        return path.equals("/api/auth/login") || path.equals("/api/auth/setup-admin");
+    }
+
+    /**
      * This method is called for EVERY HTTP request to your API.
      * It's our chance to check for a JWT token and authenticate the user.
      * 

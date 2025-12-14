@@ -2,8 +2,9 @@ package com.riegelnick.backend.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.MacAlgorithm;
 import javax.crypto.SecretKey;
 import org.springframework.stereotype.Component;
 import java.util.Date;
@@ -28,7 +29,7 @@ public class JwtUtil {
     // Secret key used to sign tokens - ensures tokens can't be forged
     // In production, store this in environment variables or application.properties
     // This key is randomly generated each time the app starts
-    private final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private final SecretKey SECRET_KEY = Jwts.SIG.HS256.key().build();
 
     // How long tokens are valid before they expire
     // 1000 = 1 second (in milliseconds)
@@ -47,9 +48,9 @@ public class JwtUtil {
      */
     public String generateToken(String username){
         return Jwts.builder()
-            .setSubject(username)  // "sub" claim: who the token is for
-            .setIssuedAt(new Date(System.currentTimeMillis()))  // "iat" claim: when token was created
-            .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))  // "exp" claim: when token expires
+            .subject(username)  // "sub" claim: who the token is for
+            .issuedAt(new Date(System.currentTimeMillis()))  // "iat" claim: when token was created
+            .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))  // "exp" claim: when token expires
             .signWith(SECRET_KEY)  // Sign with secret key to prevent tampering
             .compact();  // Build the final JWT string
     }
@@ -89,11 +90,11 @@ public class JwtUtil {
      * @throws io.jsonwebtoken.JwtException if token is invalid or tampered with
      */
     private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder()
-            .setSigningKey(SECRET_KEY)  // Use same key that was used to sign the token
+        return Jwts.parser()
+            .verifyWith(SECRET_KEY)  // Use same key that was used to sign the token
             .build()
-            .parseClaimsJws(token)  // Parse and verify the token
-            .getBody();  // Get the claims (payload)
+            .parseSignedClaims(token)  // Parse and verify the token
+            .getPayload();  // Get the claims (payload)
     }
 
     /**
