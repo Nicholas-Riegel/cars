@@ -45,15 +45,15 @@ public class AuthController {
     @Value("${ADMIN_PASSWORD}")
     private String adminPassword;
 
-    @PostMapping("/setup-admin")  // Only call this once!
-    public ResponseEntity<String> setupAdmin() {
-        if (userRepository.count() > 0) {
-            return ResponseEntity.badRequest().body("Admin already exists");
-        }
-        User admin = new User(adminFirstName, adminLastName, adminEmail, adminPassword, "ADMIN");
-        userService.registerUser(admin);
-        return ResponseEntity.ok("Admin created");
-    }
+    // @PostMapping("/setup-admin")  // Only call this once!
+    // public ResponseEntity<String> setupAdmin() {
+    //     if (userRepository.count() > 0) {
+    //         return ResponseEntity.badRequest().body("Admin already exists");
+    //     }
+    //     User admin = new User(adminFirstName, adminLastName, adminEmail, adminPassword, "ADMIN");
+    //     userService.registerUser(admin);
+    //     return ResponseEntity.ok("Admin created");
+    // }
     
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestBody LoginRequest loginRequest) {
