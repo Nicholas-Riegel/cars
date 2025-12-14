@@ -24,7 +24,7 @@ const LoginPage = () => {
             setEmail('')
             setPassword('')
             setError('')
-            navigate('/admin')  // Redirect to admin page after login
+            navigate('/addcar')  // Redirect to admin page after login
         } catch (err) {
             setError('Login failed. Please check your credentials.')
             console.error(err)

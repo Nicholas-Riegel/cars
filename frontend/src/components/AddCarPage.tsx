@@ -2,7 +2,7 @@ import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
-function AdminPage() {
+function AddCarPage() {
         
     const [make, setMake] = useState('')
     const [model, setModel] = useState('')
@@ -93,4 +93,4 @@ function AdminPage() {
     )
 }
 
-export default AdminPage
+export default AddCarPage

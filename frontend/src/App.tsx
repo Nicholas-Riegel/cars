@@ -1,12 +1,13 @@
-import { Routes, Route, Link, useNavigate } from 'react-router-dom'
+import { Routes, Route, Link, useNavigate, useLocation, Navigate} from 'react-router-dom'
 import HomePage from './components/HomePage'
-import AdminPage from './components/AdminPage'
+import AddCarPage from './components/AddCarPage'
 import LoginPage from './components/LoginPage'
 import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
 
 	const navigate = useNavigate()
+	const location = useLocation()
 	// !! converts value to boolean: string → true, null → false
 	const isLoggedIn = !!localStorage.getItem('token')
 
@@ -21,7 +22,7 @@ function App() {
 				<Link to="/">Home</Link>
 				{isLoggedIn && (
 					<>
-						<Link to="/admin">Admin</Link>
+						{ location.pathname != '/addcar' && <Link to="/addcar">Add Car</Link> }
 						<button onClick={handleLogout}>Logout</button>
 					</>
 				)} 
@@ -29,11 +30,12 @@ function App() {
 			<Routes>
 				<Route path="/" element={<HomePage/>} />
 				<Route path="/login" element={<LoginPage />} />
-				<Route path="/admin" element={
+				<Route path="/addcar" element={
 					<ProtectedRoute>
-						<AdminPage />
+						<AddCarPage />
 					</ProtectedRoute>
 				} />
+				<Route path="*" element={<Navigate to="/" replace />} />
 			</Routes>
 		</>
 	)
