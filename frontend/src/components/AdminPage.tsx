@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 function AdminPage() {
@@ -9,6 +10,7 @@ function AdminPage() {
     const [description, setDescription] = useState('')
     const [file, setFile] = useState<File | null>(null)
     const fileInputRef = useRef<HTMLInputElement>(null)
+    const navigate = useNavigate()
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -24,8 +26,12 @@ function AdminPage() {
             await axios.post(
                 '/api/cars/upload-with-image', 
                 formData, 
-                {headers: { 'Content-Type': 'multipart/form-data' }
-            })
+                {headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`, 
+                    'Content-Type': 'multipart/form-data' 
+                    }
+                }
+            )
             // Clear form or show success message
             setMake('')
             setModel('')
@@ -35,6 +41,11 @@ function AdminPage() {
             if (fileInputRef.current) fileInputRef.current.value = ''
             setFile(null)
         } catch (err) {
+            if (axios.isAxiosError(err) && err.response?.status === 401) {
+                // Token invalid or expired - redirect to login
+                localStorage.removeItem('token')
+                navigate('/login')
+            }
             console.error(err)
         }
     }
