@@ -2,9 +2,6 @@ package com.riegelnick.backend.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.MacAlgorithm;
 import javax.crypto.SecretKey;
 import org.springframework.stereotype.Component;
 import java.util.Date;

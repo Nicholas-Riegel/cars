@@ -9,8 +9,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.riegelnick.backend.entities.User;
-import com.riegelnick.backend.repositories.UserRepository;
 import com.riegelnick.backend.services.UserService;
 import com.riegelnick.backend.utils.JwtUtil;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,9 +27,6 @@ public class AuthController {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Value("${ADMIN_FIRSTNAME}")
     private String adminFirstName;
