@@ -12,6 +12,8 @@ services:
       ADMIN_LASTNAME: ${ADMIN_LASTNAME}
       ADMIN_EMAIL: ${ADMIN_EMAIL}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+    volumes:
+      - car_uploads:/app/uploads
     depends_on:
       - db
 
@@ -36,3 +38,4 @@ services:
       - backend
 volumes:
   postgres_data:
+  car_uploads:
