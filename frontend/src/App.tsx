@@ -1,6 +1,6 @@
 import { Routes, Route, Link, useNavigate, useLocation, Navigate} from 'react-router-dom'
 import HomePage from './components/HomePage'
-import AddCarPage from './components/AddCarPage'
+import AdminPage from './components/AdminPage'
 import LoginPage from './components/LoginPage'
 import ProtectedRoute from './components/ProtectedRoute'
 
@@ -22,7 +22,7 @@ function App() {
 				<Link to="/">Home</Link>
 				{isLoggedIn && (
 					<>
-						{ location.pathname != '/addcar' && <Link to="/addcar">Add Car</Link> }
+						{ location.pathname != '/admin' && <Link to="/admin">Add Car</Link> }
 						<button onClick={handleLogout}>Logout</button>
 					</>
 				)} 
@@ -30,9 +30,9 @@ function App() {
 			<Routes>
 				<Route path="/" element={<HomePage/>} />
 				<Route path="/login" element={<LoginPage />} />
-				<Route path="/addcar" element={
+				<Route path="/admin" element={
 					<ProtectedRoute>
-						<AddCarPage />
+						<AdminPage />
 					</ProtectedRoute>
 				} />
 				<Route path="*" element={<Navigate to="/" replace />} />
