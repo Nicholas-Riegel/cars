@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import type { PropTypes } from '../App'
 import axios from 'axios'
 
-function AdminPage({carsState, setCarsState, errorState, singleCarState, setSingleCarState}
-    : Pick<PropTypes, 'carsState' | 'setCarsState' | 'errorState' | 'singleCarState' | 'setSingleCarState'>) {
+function AdminPage({carsState, setCarsState, errorState, setSingleCarState}
+    : Pick<PropTypes, 'carsState' | 'setCarsState' | 'errorState' | 'setSingleCarState'>) {
         
     const [make, setMake] = useState('')
     const [model, setModel] = useState('')
@@ -56,7 +56,7 @@ function AdminPage({carsState, setCarsState, errorState, singleCarState, setSing
         const carToEdit = carsState.find(car => car.id === carId)
         if (carToEdit) {
             setSingleCarState(carToEdit)
-            navigate('/edit')
+            navigate('/edit/' + carId)
         } else {
             console.error(`Car with ID ${carId} not found`)
             // Optionally show user feedback

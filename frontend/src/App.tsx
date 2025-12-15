@@ -56,7 +56,7 @@ function App() {
 				<Link to="/">Home</Link>
 				{isLoggedIn && (
 					<>
-						{ location.pathname != '/admin' && <Link to="/admin">Add Car</Link> }
+						{ location.pathname != '/admin' && <Link to="/admin">Admin</Link> }
 						<button onClick={handleLogout}>Logout</button>
 					</>
 				)} 
@@ -70,13 +70,13 @@ function App() {
 				<Route path="/admin" element={
 					<ProtectedRoute>
 						<AdminPage {...{
-							carsState, setCarsState, errorState, singleCarState, setSingleCarState
+								carsState, setCarsState, errorState, setSingleCarState
 							}} />
 					</ProtectedRoute>
 				} />
 				<Route path="/edit/:id" element={
 					<ProtectedRoute>
-						<EditPage {...{singleCarState, setSingleCarState}}/>
+						<EditPage {...{setCarsState, singleCarState, setSingleCarState}}/>
 					</ProtectedRoute>
 				} />
 				<Route path="*" element={<Navigate to="/" replace />} />
