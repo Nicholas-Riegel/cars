@@ -1,8 +1,9 @@
 import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
+import type { PageProps } from '../App'
 import axios from 'axios'
 
-function AdminPage() {
+function AdminPage({carsState, errorState}: PageProps) {
         
     const [make, setMake] = useState('')
     const [model, setModel] = useState('')
@@ -51,45 +52,66 @@ function AdminPage() {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input 
-                type="text" 
-                value={make} 
-                onChange={(e) => setMake(e.target.value)}
-                placeholder="Make"
-                required
-            />
-            <br />
-            <input 
-                type="text" 
-                value={model} 
-                onChange={(e) => setModel(e.target.value)}
-                placeholder="Model"
-                required
-            />
-            <br />
-            <input 
-                type="number" 
-                value={year} 
-                onChange={(e) => setYear(e.target.value)}
-                placeholder="Year"
-            />
-            <br />
-            <textarea 
-                value={description} 
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Description"
-            />
-            <br />
-            <input 
-                ref={fileInputRef}
-                type="file" 
-                accept="image/*"
-                onChange={(e) => setFile(e.target.files?.[0] || null)}
-            />
-            <br />
-            <button type="submit">Add Car</button>
-        </form>
+        <>
+                <form onSubmit={handleSubmit}>
+                <input 
+                    type="text" 
+                    value={make} 
+                    onChange={(e) => setMake(e.target.value)}
+                    placeholder="Make"
+                    required
+                />
+                <br />
+                <input 
+                    type="text" 
+                    value={model} 
+                    onChange={(e) => setModel(e.target.value)}
+                    placeholder="Model"
+                    required
+                />
+                <br />
+                <input 
+                    type="number" 
+                    value={year} 
+                    onChange={(e) => setYear(e.target.value)}
+                    placeholder="Year"
+                />
+                <br />
+                <textarea 
+                    value={description} 
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="Description"
+                />
+                <br />
+                <input 
+                    ref={fileInputRef}
+                    type="file" 
+                    accept="image/*"
+                    onChange={(e) => setFile(e.target.files?.[0] || null)}
+                />
+                <br />
+                <button type="submit">Add Car</button>
+            </form>
+
+            {errorState 
+				? <p>{errorState}</p>
+				: (
+					<ul>
+						{carsState.map((car) => (
+							<li key={car.id}>
+								{car.make} {car.model} {car.year}: {car.description}
+                                <br />
+								<img 
+									src={`/api/images/${car.imagePath}`} 
+									alt={`${car.make} ${car.model}`} 
+									width="200" 
+								/>
+							</li>
+						))}
+					</ul>
+				)
+			}
+        </>
     )
 }
 

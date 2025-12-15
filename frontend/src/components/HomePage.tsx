@@ -1,30 +1,8 @@
-import { useState, useEffect } from 'react'
-import axios, { AxiosError } from 'axios'
+import type { PageProps } from '../App'
 
-function HomePage() {
+function HomePage({carsState, errorState}: PageProps) {
 
-	type Car = {
-		id: number
-		make: string
-		model: string
-		year: number
-		description: string
-        imagePath: string
-	}
-
-	const [carsState, setCarsState] = useState<Car[]>([])
-	const [errorState, setErrorState] = useState<string | null>(null)
-
-	useEffect(() => {
-		(async () => {
-			try {
-				const response = await axios.get('/api/cars')
-				setCarsState(response.data)
-			} catch (err: unknown) {
-				setErrorState(err instanceof AxiosError ? err.message : 'An unknown error occurred')
-			}
-		})()
-	}, [])
+	
 
 	return (
 		<>
