@@ -1,9 +1,10 @@
 import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import type { PageProps } from '../App'
+import type { PropTypes } from '../App'
 import axios from 'axios'
 
-function AdminPage({carsState, errorState}: PageProps) {
+function AdminPage({carsState, setCarsState, errorState, singleCarState, setSingleCarState}
+    : Pick<PropTypes, 'carsState' | 'setCarsState' | 'errorState' | 'singleCarState' | 'setSingleCarState'>) {
         
     const [make, setMake] = useState('')
     const [model, setModel] = useState('')
@@ -41,6 +42,38 @@ function AdminPage({carsState, errorState}: PageProps) {
             // Clear the file input
             if (fileInputRef.current) fileInputRef.current.value = ''
             setFile(null)
+        } catch (err) {
+            if (axios.isAxiosError(err) && err.response?.status === 401) {
+                // Token invalid or expired - redirect to login
+                localStorage.removeItem('token')
+                navigate('/login')
+            }
+            console.error(err)
+        }
+    }
+
+    const handleEdit = (carId: number) => {
+        const carToEdit = carsState.find(car => car.id === carId)
+        if (carToEdit) {
+            setSingleCarState(carToEdit)
+            navigate('/edit')
+        } else {
+            console.error(`Car with ID ${carId} not found`)
+            // Optionally show user feedback
+        }
+    }
+
+    const handleDelete = async (carId: number) => {
+        try {
+            await axios.delete(
+                `/api/cars/${carId}`, 
+                {headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}` 
+                    }
+                }
+            )
+            // Remove the deleted car from state
+            setCarsState(prevCars => prevCars.filter(car => car.id !== carId))
         } catch (err) {
             if (axios.isAxiosError(err) && err.response?.status === 401) {
                 // Token invalid or expired - redirect to login
@@ -106,6 +139,8 @@ function AdminPage({carsState, errorState}: PageProps) {
 									alt={`${car.make} ${car.model}`} 
 									width="200" 
 								/>
+                                <button onClick={()=>handleEdit(car.id)}>Edit</button>
+                                <button onClick={()=>handleDelete(car.id)}>Delete</button>
 							</li>
 						))}
 					</ul>

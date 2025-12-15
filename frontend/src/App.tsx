@@ -5,6 +5,7 @@ import HomePage from './components/HomePage'
 import AdminPage from './components/AdminPage'
 import LoginPage from './components/LoginPage'
 import ProtectedRoute from './components/ProtectedRoute'
+import EditPage from './components/EditPage'
 
 export type Car = {
 	id: number
@@ -15,9 +16,12 @@ export type Car = {
 	imagePath: string
 }
 
-export type PageProps = {
+export type PropTypes = {
 	carsState: Car[]
+	setCarsState: React.Dispatch<React.SetStateAction<Car[]>>
 	errorState: string | null
+	singleCarState: Car | null
+	setSingleCarState: React.Dispatch<React.SetStateAction<Car | null>>
 }
 
 function App() {
@@ -28,6 +32,7 @@ function App() {
 	const isLoggedIn = !!localStorage.getItem('token')
 	const [carsState, setCarsState] = useState<Car[]>([])
 	const [errorState, setErrorState] = useState<string | null>(null)
+	const [singleCarState, setSingleCarState] = useState<Car | null>(null)
 
 	useEffect(() => {
 		(async () => {
@@ -64,7 +69,14 @@ function App() {
 				<Route path="/login" element={<LoginPage />} />
 				<Route path="/admin" element={
 					<ProtectedRoute>
-						<AdminPage {...{carsState, errorState}} />
+						<AdminPage {...{
+							carsState, setCarsState, errorState, singleCarState, setSingleCarState
+							}} />
+					</ProtectedRoute>
+				} />
+				<Route path="/edit/:id" element={
+					<ProtectedRoute>
+						<EditPage {...{singleCarState, setSingleCarState}}/>
 					</ProtectedRoute>
 				} />
 				<Route path="*" element={<Navigate to="/" replace />} />

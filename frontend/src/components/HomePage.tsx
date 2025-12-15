@@ -1,8 +1,7 @@
-import type { PageProps } from '../App'
+import type { PropTypes } from '../App'
 
-function HomePage({carsState, errorState}: PageProps) {
-
-	
+function HomePage({carsState, errorState}
+	: Pick<PropTypes, 'carsState' | 'errorState'>) {
 
 	return (
 		<>
