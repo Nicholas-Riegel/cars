@@ -6,6 +6,7 @@ import AdminPage from './components/AdminPage'
 import LoginPage from './components/LoginPage'
 import ProtectedRoute from './components/ProtectedRoute'
 import EditPage from './components/EditPage'
+import './App.css'
 
 export type Car = {
 	id: number
@@ -54,45 +55,49 @@ function App() {
 		<>
 			<nav>
 				<Link to="/">Home</Link>
-				{isLoggedIn && (
-					<>
-						{location.pathname != '/admin' && <Link to="/admin">Admin</Link>}
-						<button onClick={handleLogout}>Logout</button>
-					</>
-				)} 
+				<div className="nav-right">
+					{isLoggedIn && (
+						<>
+							{location.pathname != '/admin' && <Link to="/admin">Admin</Link>}
+							<button onClick={handleLogout}>Logout</button>
+						</>
+					)} 
+				</div>
 			</nav>
-			<Routes>
-				
-				{/* Home page / */}
-				<Route path="/" element={
-					<HomePage {...{carsState, errorState}}/>
-				}/>
-				
-				{/* Login page /login */}
-				<Route path="/login" element={<LoginPage />} />
-				
-				{/* Admin page /admin */}
-				<Route path="/admin" element={
-					<ProtectedRoute>
-						<AdminPage {...{
-							carsState, setCarsState, errorState, setSingleCarState
-						}} />
-					</ProtectedRoute>
-				} />
-				
-				{/* Edit page /edit/:id */}
-				<Route path="/edit/:id" element={
-					<ProtectedRoute>
-						<EditPage {...{
-							setCarsState, singleCarState, setSingleCarState
-						}}/>
-					</ProtectedRoute>
-				} />
-				
-				{/* Redirect any unknown routes to home */}
-				<Route path="*" element={<Navigate to="/" replace />} />
+			<div className="main">
+				<Routes>
+					
+					{/* Home page / */}
+					<Route path="/" element={
+						<HomePage {...{carsState, errorState}}/>
+					}/>
+					
+					{/* Login page /login */}
+					<Route path="/login" element={<LoginPage />} />
+					
+					{/* Admin page /admin */}
+					<Route path="/admin" element={
+						<ProtectedRoute>
+							<AdminPage {...{
+								carsState, setCarsState, errorState, setSingleCarState
+							}} />
+						</ProtectedRoute>
+					} />
+					
+					{/* Edit page /edit/:id */}
+					<Route path="/edit/:id" element={
+						<ProtectedRoute>
+							<EditPage {...{
+								setCarsState, singleCarState, setSingleCarState
+							}}/>
+						</ProtectedRoute>
+					} />
+					
+					{/* Redirect any unknown routes to home */}
+					<Route path="*" element={<Navigate to="/" replace />} />
 
-			</Routes>
+				</Routes>
+			</div>
 		</>
 	)
 }
