@@ -16,6 +16,12 @@ services:
       - car_uploads:/app/uploads
     depends_on:
       - db
+    # Prevent log buildup
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
     # Resource limits for VPS
     deploy:
       resources:
@@ -37,6 +43,12 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    # Prevent log buildup
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
     # Resource limits for VPS
     deploy:
       resources:
@@ -54,6 +66,12 @@ services:
       - "80:80"
     depends_on:
       - backend
+    # Prevent log buildup
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
     # Resource limits for VPS
     deploy:
       resources:
