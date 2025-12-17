@@ -59,14 +59,14 @@ function AdminPage({carsState, setCarsState, errorState, setSingleCarState}
             navigate('/edit/' + carId)
         } else {
             console.error(`Car with ID ${carId} not found`)
-            // Optionally show user feedback
+            // show user feedback?
         }
     }
 
     const handleDelete = async (carId: number) => {
         try {
             await axios.delete(
-                `/api/cars/${carId}`, 
+                '/api/cars/' + carId, 
                 {headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}` 
                     }
@@ -86,7 +86,7 @@ function AdminPage({carsState, setCarsState, errorState, setSingleCarState}
 
     return (
         <>
-                <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
                 <input 
                     type="text" 
                     value={make} 

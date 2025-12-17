@@ -1,5 +1,5 @@
 import type { PropTypes } from '../App'
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
@@ -13,7 +13,6 @@ const EditPage = ({setCarsState, singleCarState, setSingleCarState}
 	const [year, setYear] = useState(car ? String(car.year) : '')
 	const [description, setDescription] = useState(car ? car.description : '')
 	const [file, setFile] = useState<File | null>(null)
-	const fileInputRef = useRef<HTMLInputElement>(null)
 	const navigate = useNavigate()
 	
 	// Early return AFTER hooks
@@ -35,7 +34,8 @@ const EditPage = ({setCarsState, singleCarState, setSingleCarState}
 		if (description !== car.description) formData.append('description', description)
 		if (file) formData.append('file', file) // Always send if file selected
 		
-		// Don't send request if nothing changed and no new file
+		// If FormData has no entries 
+		// AND there's no new file selected, then don't send the request"
 		if (formData.entries().next().done && !file) {
 			console.log('No changes detected')
 			return
@@ -72,48 +72,48 @@ const EditPage = ({setCarsState, singleCarState, setSingleCarState}
 			console.error(err)
 		}
 	}
+	
 	return (
 		<>
-		<div>EditPage</div>
-		<form onSubmit={handleSubmit}>
-			<input 
-				type="text" 
-				value={make} 
-				onChange={(e) => setMake(e.target.value)}
-				placeholder="Make"
-				required
-			/>
-			<br />
-			<input 
-				type="text" 
-				value={model} 
-				onChange={(e) => setModel(e.target.value)}
-				placeholder="Model"
-				required
-			/>
-			<br />
-			<input 
-				type="number" 
-				value={year} 
-				onChange={(e) => setYear(e.target.value)}
-				placeholder="Year"
-			/>
-			<br />
-			<textarea 
-				value={description} 
-				onChange={(e) => setDescription(e.target.value)}
-				placeholder="Description"
-			/>
-			<br />
-			<input 
-				ref={fileInputRef}
-				type="file" 
-				accept="image/*"
-				onChange={(e) => setFile(e.target.files?.[0] || null)}
-			/>
-			<br />
-			<button type="submit">Submit</button>
-		</form>
+			<div>EditPage</div>
+			<form onSubmit={handleSubmit}>
+				<input 
+					type="text" 
+					value={make} 
+					onChange={(e) => setMake(e.target.value)}
+					placeholder="Make"
+					required
+				/>
+				<br />
+				<input 
+					type="text" 
+					value={model} 
+					onChange={(e) => setModel(e.target.value)}
+					placeholder="Model"
+					required
+				/>
+				<br />
+				<input 
+					type="number" 
+					value={year} 
+					onChange={(e) => setYear(e.target.value)}
+					placeholder="Year"
+				/>
+				<br />
+				<textarea 
+					value={description} 
+					onChange={(e) => setDescription(e.target.value)}
+					placeholder="Description"
+				/>
+				<br />
+				<input 
+					type="file" 
+					accept="image/*"
+					onChange={(e) => setFile(e.target.files?.[0] || null)}
+				/>
+				<br />
+				<button type="submit">Submit</button>
+			</form>
 		</>
 	)
 }

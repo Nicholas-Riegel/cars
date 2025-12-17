@@ -56,30 +56,42 @@ function App() {
 				<Link to="/">Home</Link>
 				{isLoggedIn && (
 					<>
-						{ location.pathname != '/admin' && <Link to="/admin">Admin</Link> }
+						{location.pathname != '/admin' && <Link to="/admin">Admin</Link>}
 						<button onClick={handleLogout}>Logout</button>
 					</>
 				)} 
 			</nav>
 			<Routes>
+				
+				{/* Home page / */}
 				<Route path="/" element={
-						<HomePage {...{carsState, errorState}}/>
-					} 
-				/>
+					<HomePage {...{carsState, errorState}}/>
+				}/>
+				
+				{/* Login page /login */}
 				<Route path="/login" element={<LoginPage />} />
+				
+				{/* Admin page /admin */}
 				<Route path="/admin" element={
 					<ProtectedRoute>
 						<AdminPage {...{
-								carsState, setCarsState, errorState, setSingleCarState
-							}} />
+							carsState, setCarsState, errorState, setSingleCarState
+						}} />
 					</ProtectedRoute>
 				} />
+				
+				{/* Edit page /edit/:id */}
 				<Route path="/edit/:id" element={
 					<ProtectedRoute>
-						<EditPage {...{setCarsState, singleCarState, setSingleCarState}}/>
+						<EditPage {...{
+							setCarsState, singleCarState, setSingleCarState
+						}}/>
 					</ProtectedRoute>
 				} />
+				
+				{/* Redirect any unknown routes to home */}
 				<Route path="*" element={<Navigate to="/" replace />} />
+
 			</Routes>
 		</>
 	)

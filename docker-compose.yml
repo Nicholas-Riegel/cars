@@ -16,6 +16,15 @@ services:
       - car_uploads:/app/uploads
     depends_on:
       - db
+    # Resource limits for VPS
+    deploy:
+      resources:
+        limits:
+          memory: 768M
+          cpus: '1.0'
+        reservations:
+          memory: 384M
+          cpus: '0.5'
 
   db:
     image: postgres:15-alpine
@@ -28,6 +37,15 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    # Resource limits for VPS
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.5'
+        reservations:
+          memory: 128M
+          cpus: '0.25'
 
   frontend:
     image: riegelnick/cars-frontend:latest
@@ -36,6 +54,15 @@ services:
       - "80:80"
     depends_on:
       - backend
+    # Resource limits for VPS
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+          cpus: '0.5'
+        reservations:
+          memory: 64M
+          cpus: '0.1'
 volumes:
   postgres_data:
   car_uploads:
