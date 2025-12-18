@@ -2,6 +2,7 @@ import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import type { PropTypes } from '../App'
 import axios from 'axios'
+import './AdminPage.css'
 
 function AdminPage({carsState, setCarsState, errorState, setSingleCarState}
     : Pick<PropTypes, 'carsState' | 'setCarsState' | 'errorState' | 'setSingleCarState'>) {
@@ -64,6 +65,13 @@ function AdminPage({carsState, setCarsState, errorState, setSingleCarState}
     }
 
     const handleDelete = async (carId: number) => {
+        
+        const confirmDelete = window.confirm(`Are you sure you want to delete this car? This action cannot be undone.`)
+        
+        if (!confirmDelete) {
+            return // User cancelled the deletion
+        }
+
         try {
             await axios.delete(
                 '/api/cars/' + carId, 
@@ -86,66 +94,66 @@ function AdminPage({carsState, setCarsState, errorState, setSingleCarState}
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
-                <input 
-                    type="text" 
-                    value={make} 
-                    onChange={(e) => setMake(e.target.value)}
-                    placeholder="Make"
-                    required
-                />
-                <br />
-                <input 
-                    type="text" 
-                    value={model} 
-                    onChange={(e) => setModel(e.target.value)}
-                    placeholder="Model"
-                    required
-                />
-                <br />
-                <input 
-                    type="number" 
-                    value={year} 
-                    onChange={(e) => setYear(e.target.value)}
-                    placeholder="Year"
-                />
-                <br />
-                <textarea 
-                    value={description} 
-                    onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Description"
-                />
-                <br />
-                <input 
-                    ref={fileInputRef}
-                    type="file" 
-                    accept="image/*"
-                    onChange={(e) => setFile(e.target.files?.[0] || null)}
-                />
-                <br />
-                <button type="submit">Add Car</button>
-            </form>
-
-            {errorState 
-				? <p>{errorState}</p>
-				: (
-					<ul>
-						{carsState.map((car) => (
-							<li key={car.id}>
-								{car.make} {car.model} {car.year}: {car.description}
-                                <br />
-								<img 
-									src={`/api/images/${car.imagePath}`} 
-									alt={`${car.make} ${car.model}`} 
-									width="200" 
-								/>
-                                <button onClick={()=>handleEdit(car.id)}>Edit</button>
-                                <button onClick={()=>handleDelete(car.id)}>Delete</button>
-							</li>
-						))}
-					</ul>
-				)
-			}
+            <div className='car-container'>
+                <form onSubmit={handleSubmit}>
+                    <input 
+                        type="text" 
+                        value={make} 
+                        onChange={(e) => setMake(e.target.value)}
+                        placeholder="Make"
+                        required
+                    />
+                    <br />
+                    <input 
+                        type="text" 
+                        value={model} 
+                        onChange={(e) => setModel(e.target.value)}
+                        placeholder="Model"
+                        required
+                    />
+                    <br />
+                    <input 
+                        type="number" 
+                        value={year} 
+                        onChange={(e) => setYear(e.target.value)}
+                        placeholder="Year"
+                    />
+                    <br />
+                    <textarea 
+                        value={description} 
+                        onChange={(e) => setDescription(e.target.value)}
+                        placeholder="Description"
+                    />
+                    <br />
+                    <input 
+                        ref={fileInputRef}
+                        type="file" 
+                        accept="image/*"
+                        onChange={(e) => setFile(e.target.files?.[0] || null)}
+                    />
+                    <br />
+                    <button type="submit">Add Car</button>
+                </form>
+    		
+                {errorState 
+                    ? <p>{errorState}</p>
+                    : (
+                        carsState.map((car) => (
+                            <div key={car.id} className='car-card'>
+                                <img className='car-picture'
+                                    src={`/api/images/${car.imagePath}`} 
+                                    alt={`${car.make} ${car.model}`} 
+                                />
+                                <p>{car.description}</p>
+                                <div className="button-group">
+                                    <button onClick={()=>handleEdit(car.id)}>Edit</button>
+                                    <button onClick={()=>handleDelete(car.id)}>Delete</button>
+                                </div>
+                            </div>
+                        ))
+                    )
+                }
+            </div>
         </>
     )
 }

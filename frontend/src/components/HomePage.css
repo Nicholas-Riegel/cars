@@ -1,0 +1,51 @@
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    font-size: 4em;
+    font-family: 'Orbitron', 'Futura', 'Arial Black', sans-serif;
+    font-weight: 900;
+    
+    /* Neon glow effect */
+    color: #00ff40;
+    
+    /* First number: horizontal offset (0 = centered) */
+    /* Second number: vertical offset (0 = centered) */
+    /* Third number: blur radius (larger = more blurred) */
+    /* Fourth value: color */
+    text-shadow: 
+        0 0 5px #00ff40,    /* Small, tight glow */
+        0 0 10px #00ff40,   /* Medium glow */
+        0 0 20px #00ff40,   /* Larger glow */
+        0 0 40px #00ff00,   /* Even larger glow, slightly different color */
+        0 0 80px #00ff00;   /* Huge outer glow */
+    
+    /* Animation */
+    animation: glow 2s ease-in-out infinite alternate;
+    
+    /* Perspective effect */
+    transform: perspective(500px) rotateX(15deg);
+
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 
+            0 0 5px #00ff40,
+            0 0 10px #00ff40,
+            0 0 20px #00ff40,
+            0 0 40px #00ff00;
+    }
+    to {
+        text-shadow: 
+            0 0 10px #00ff40,
+            0 0 20px #00ff40,
+            0 0 30px #00ff40,
+            0 0 50px #00ff00,
+            0 0 80px #00ff00;
+    }
+}

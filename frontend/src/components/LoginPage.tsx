@@ -31,7 +31,7 @@ const LoginPage = () => {
         }
     }
     return (
-        <>
+        <div className='car-container'>
             <div>Login</div>
             <form onSubmit={handleSubmit}>
 
@@ -59,7 +59,7 @@ const LoginPage = () => {
                 <br />
                 <button type="submit">Login</button>
             </form>
-        </>
+        </div>
     )
 }
 
