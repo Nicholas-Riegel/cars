@@ -1,17 +1,4 @@
-.car-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem;
-}
-
 /* AdminPage specific styles */
-.car-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-}
-
 .car-card .button-group {
     display: flex;
     gap: 0.5rem;

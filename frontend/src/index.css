@@ -76,26 +76,32 @@ button:focus-visible {
 
 .car-container {
   border: 1px solid green;
-  padding: 1rem;
-  margin: 1rem 0;
+  /* padding: 1rem; */
+  /* margin: 1rem 0; */
   border-radius: 5px;
-  width: 50%;
+  width: 70%;
 }
 
 .car-card {
   border: 1px solid gray;
   border-radius: 8px;
   padding: 1rem;
-  margin: 1rem;
-  /* max-width: 100%; */
+  margin-bottom: 2rem;
+  width: 100%;
   text-align: center;
   background-color: #2a2a2a;
 }
 
 .car-picture {
-  max-width: 100%;
+  width: 100%;
   height: auto;
+  object-fit: cover;
   border-radius: 5px;
+  transition: transform 0.3s ease;
+}
+
+.car-card:hover .car-picture {
+  transform: scale(1.05);
 }
 
 /* Shared form styling */
