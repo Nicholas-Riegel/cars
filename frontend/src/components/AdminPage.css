@@ -4,76 +4,7 @@
     padding: 2rem;
 }
 
-/* Form styling */
-form {
-    background: rgba(42, 42, 42, 0.9);
-    padding: 2rem;
-    border-radius: 12px;
-    margin-bottom: 2rem;
-    border: 1px solid #444;
-}
-
-form input,
-form textarea {
-    width: 100%;
-    padding: 0.75rem;
-    margin-bottom: 1rem;
-    border: 1px solid #555;
-    border-radius: 6px;
-    background: #1a1a1a;
-    color: #fff;
-    font-size: 1rem;
-    font-family: inherit;
-}
-
-form input:focus,
-form textarea:focus {
-    outline: none;
-    border-color: #646cff;
-    box-shadow: 0 0 0 2px rgba(100, 108, 255, 0.2);
-}
-
-form input::placeholder,
-form textarea::placeholder {
-    color: #999;
-}
-
-form textarea {
-    min-height: 100px;
-    resize: vertical;
-}
-
-form input[type="file"] {
-    background: #333;
-    border: 2px dashed #555;
-    padding: 1rem;
-    text-align: center;
-    cursor: pointer;
-}
-
-form input[type="file"]:hover {
-    border-color: #646cff;
-}
-
-form button[type="submit"] {
-    background: #646cff;
-    color: white;
-    border: none;
-    padding: 0.75rem 2rem;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s;
-    margin-left: auto; 
-    display: block;  
-}
-
-form button[type="submit"]:hover {
-    background: #535bf2;
-}
-
-/* Car cards in admin */
+/* AdminPage specific styles */
 .car-card {
     display: flex;
     flex-direction: column;

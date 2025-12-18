@@ -75,45 +75,46 @@ const EditPage = ({setCarsState, singleCarState, setSingleCarState}
 	
 	return (
 		<>
-			<div>EditPage</div>
-			<form onSubmit={handleSubmit}>
-				<input 
-					type="text" 
-					value={make} 
-					onChange={(e) => setMake(e.target.value)}
-					placeholder="Make"
-					required
-				/>
-				<br />
-				<input 
-					type="text" 
-					value={model} 
-					onChange={(e) => setModel(e.target.value)}
-					placeholder="Model"
-					required
-				/>
-				<br />
-				<input 
-					type="number" 
-					value={year} 
-					onChange={(e) => setYear(e.target.value)}
-					placeholder="Year"
-				/>
-				<br />
-				<textarea 
-					value={description} 
-					onChange={(e) => setDescription(e.target.value)}
-					placeholder="Description"
-				/>
-				<br />
-				<input 
-					type="file" 
-					accept="image/*"
-					onChange={(e) => setFile(e.target.files?.[0] || null)}
-				/>
-				<br />
-				<button type="submit">Submit</button>
-			</form>
+			<div className='car-container'>
+				<form onSubmit={handleSubmit}>
+					<input 
+						type="text" 
+						value={make} 
+						onChange={(e) => setMake(e.target.value)}
+						placeholder="Make"
+						required
+					/>
+					<br />
+					<input 
+						type="text" 
+						value={model} 
+						onChange={(e) => setModel(e.target.value)}
+						placeholder="Model"
+						required
+					/>
+					<br />
+					<input 
+						type="number" 
+						value={year} 
+						onChange={(e) => setYear(e.target.value)}
+						placeholder="Year"
+					/>
+					<br />
+					<textarea 
+						value={description} 
+						onChange={(e) => setDescription(e.target.value)}
+						placeholder="Description"
+					/>
+					<br />
+					<input 
+						type="file" 
+						accept="image/*"
+						onChange={(e) => setFile(e.target.files?.[0] || null)}
+					/>
+					<br />
+					<button type="submit">Submit</button>
+				</form>
+			</div>
 		</>
 	)
 }

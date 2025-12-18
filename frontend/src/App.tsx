@@ -54,15 +54,15 @@ function App() {
 	return (
 		<>
 			<nav>
-				<Link to="/">Home</Link>
-				<div className="nav-right">
-					{isLoggedIn && (
-						<>
+				{isLoggedIn && (
+					<>
+						<Link to="/">Home</Link>
+						<div className="nav-right">
 							{location.pathname != '/admin' && <Link to="/admin">Admin</Link>}
 							<button onClick={handleLogout}>Logout</button>
-						</>
-					)} 
-				</div>
+						</div>
+					</>
+				)} 
 			</nav>
 			
 			<div className="main">
