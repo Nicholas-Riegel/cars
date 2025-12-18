@@ -32,7 +32,6 @@ const LoginPage = () => {
     }
     return (
         <div className='car-container'>
-            <div>Login</div>
             <form onSubmit={handleSubmit}>
 
                 {error && <div style={{color: 'red'}}>{error}</div>}

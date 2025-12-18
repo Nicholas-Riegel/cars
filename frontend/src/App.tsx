@@ -47,6 +47,12 @@ function App() {
 	}, [])
 
 	const handleLogout = () => {
+		const confirmLogout = window.confirm('Are you sure you want to logout?')
+		
+		if (!confirmLogout) {
+			return // User cancelled the logout
+		}
+
 		localStorage.removeItem('token')
 		navigate('/')
 	}
