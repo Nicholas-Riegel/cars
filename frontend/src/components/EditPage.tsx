@@ -112,7 +112,7 @@ const EditPage = ({setCarsState, singleCarState, setSingleCarState}
 						onChange={(e) => setFile(e.target.files?.[0] || null)}
 					/>
 					<br />
-					<button type="submit">Submit</button>
+					<button type="submit">Submit Edit</button>
 				</form>
 			</div>
 		</>
