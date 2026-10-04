@@ -1,6 +1,5 @@
 # 🧰 1st Stage: Build with resource limits
-FROM maven:3.9.6-eclipse-temurin-21-alpine AS build
-
+FROM maven:3.9.11-eclipse-temurin-25-alpine AS build
 # Set Maven options for minimal resource usage
 ENV MAVEN_OPTS="-Xmx512m -XX:MaxMetaspaceSize=256m"
 
@@ -21,7 +20,7 @@ RUN mvn package -DskipTests --quiet --no-transfer-progress \
     -Dspring-boot.run.jvmArguments="-Xmx256m"
 
 # 🧰 2nd Stage: Minimal runtime image
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:25-jre-alpine
 
 # Create non-root user for security and lower resource usage
 RUN addgroup -g 1000 spring && adduser -u 1000 -G spring -s /bin/sh -D spring

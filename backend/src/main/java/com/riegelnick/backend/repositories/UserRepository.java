@@ -1,13 +1,9 @@
 package com.riegelnick.backend.repositories;
 
-import com.riegelnick.backend.entities.User;
-
 import java.util.Optional;
-
+import com.riegelnick.backend.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     
     // SPRING DATA JPA MAGIC:

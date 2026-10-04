@@ -4,7 +4,6 @@ import com.riegelnick.backend.entities.Car;
 import com.riegelnick.backend.services.CarService;
 import com.riegelnick.backend.services.FileStorageService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,11 +14,14 @@ import java.util.List;
 @RequestMapping("/api/cars")
 public class CarController {
 
-    @Autowired
-    private CarService carService;
+    private final CarService carService;
 
-    @Autowired
-    private FileStorageService fileStorageService;
+    private final FileStorageService fileStorageService;
+
+    CarController(FileStorageService fileStorageService, CarService carService) {
+        this.fileStorageService = fileStorageService;
+        this.carService = carService;
+    }
 
     // Create a new car without image
     @PostMapping("/upload-without-image")

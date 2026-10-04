@@ -1,7 +1,6 @@
 package com.riegelnick.backend.controllers;
 
 import com.riegelnick.backend.services.FileStorageService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -16,8 +15,11 @@ import java.nio.file.Paths;
 @RequestMapping("/api/images")
 public class ImageController {
 
-    @Autowired
-    private FileStorageService fileStorageService;
+    private final FileStorageService fileStorageService;
+
+    ImageController(FileStorageService fileStorageService) {
+        this.fileStorageService = fileStorageService;
+    }
 
     // Upload an image
     // @RequestParam("file") binds the "file" field in the multipart/form-data request to the MultipartFile parameter

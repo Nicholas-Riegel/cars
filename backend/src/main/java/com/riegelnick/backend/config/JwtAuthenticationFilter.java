@@ -1,6 +1,5 @@
 package com.riegelnick.backend.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,11 +37,14 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter{
 
-    @Autowired
-    private JwtUtil jwtUtil;
+    private final JwtUtil jwtUtil;
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    JwtAuthenticationFilter(UserService userService, JwtUtil jwtUtil) {
+        this.userService = userService;
+        this.jwtUtil = jwtUtil;
+    }
 
     /**
      * Skip JWT validation for public endpoints like login and setup-admin.

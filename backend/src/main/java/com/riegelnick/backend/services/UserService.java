@@ -1,6 +1,5 @@
 package com.riegelnick.backend.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,11 +12,14 @@ import com.riegelnick.backend.repositories.UserRepository;
 @Service
 public class UserService implements UserDetailsService {
     
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
     
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
+
+    UserService(BCryptPasswordEncoder passwordEncoder, UserRepository userRepository) {
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+    }
     
     // Register new user
     public User registerUser(User user) {

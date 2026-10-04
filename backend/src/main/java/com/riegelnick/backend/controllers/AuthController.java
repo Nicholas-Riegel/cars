@@ -1,6 +1,5 @@
 package com.riegelnick.backend.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,7 +8,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.riegelnick.backend.entities.User;
 import com.riegelnick.backend.services.UserService;
+import com.riegelnick.backend.repositories.UserRepository;
 import com.riegelnick.backend.utils.JwtUtil;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,14 +20,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private JwtUtil jwtUtil;
+    private final JwtUtil jwtUtil;
 
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
+
+    private final UserRepository userRepository;
 
     @Value("${ADMIN_FIRSTNAME}")
     private String adminFirstName;
@@ -40,15 +40,22 @@ public class AuthController {
     @Value("${ADMIN_PASSWORD}")
     private String adminPassword;
 
+    AuthController(UserService userService, JwtUtil jwtUtil, BCryptPasswordEncoder passwordEncoder, UserRepository userRepository) {
+        this.userService = userService;
+        this.jwtUtil = jwtUtil;
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+    }
+
     // @PostMapping("/setup-admin")  // Only call this once!
-    // public ResponseEntity<String> setupAdmin() {
-    //     if (userRepository.count() > 0) {
-    //         return ResponseEntity.badRequest().body("Admin already exists");
-    //     }
-    //     User admin = new User(adminFirstName, adminLastName, adminEmail, adminPassword, "ADMIN");
-    //     userService.registerUser(admin);
-    //     return ResponseEntity.ok("Admin created");
-    // }
+    public ResponseEntity<String> setupAdmin() {
+        if (userRepository.count() > 0) {
+            return ResponseEntity.badRequest().body("Admin already exists");
+        }
+        User admin = new User(adminFirstName, adminLastName, adminEmail, adminPassword, "ADMIN");
+        userService.registerUser(admin);
+        return ResponseEntity.ok("Admin created");
+    }
     
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestBody LoginRequest loginRequest) {

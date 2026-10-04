@@ -2,7 +2,6 @@ package com.riegelnick.backend.services;
 
 import com.riegelnick.backend.entities.Car;
 import com.riegelnick.backend.repositories.CarRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,8 +11,11 @@ import java.util.Optional;
 @Service
 public class CarService {
     
-    @Autowired
-    private CarRepository carRepository;
+    private final CarRepository carRepository;
+
+    CarService(CarRepository carRepository) {
+        this.carRepository = carRepository;
+    }
     
     // Create a new car
     public Car createCar(Car car) {
