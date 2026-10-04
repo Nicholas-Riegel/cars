@@ -1,11 +1,12 @@
 import { Routes, Route, Link, useNavigate, useLocation, Navigate} from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import axios, { AxiosError } from 'axios'
-import HomePage from './components/HomePage'
 import AdminPage from './components/AdminPage'
 import LoginPage from './components/LoginPage'
 import ProtectedRoute from './components/ProtectedRoute'
 import EditPage from './components/EditPage'
+import HomePage from './components/HomePage'
+import CarPage from './components/CarPage'
 import './App.css'
 
 export type Car = {
@@ -74,10 +75,6 @@ function App() {
 			<div className="main">
 				<Routes>
 					
-					{/* Home page / */}
-					<Route path="/" element={
-						<HomePage {...{carsState, errorState}}/>
-					}/>
 					
 					{/* Login page /login */}
 					<Route path="/login" element={<LoginPage />} />
@@ -85,21 +82,41 @@ function App() {
 					{/* Admin page /admin */}
 					<Route path="/admin" element={
 						<ProtectedRoute>
-							<AdminPage {...{
-								carsState, setCarsState, errorState, setSingleCarState
-							}} />
+							<AdminPage 
+								carsState={carsState} 
+								setCarsState={setCarsState}
+								errorState={errorState}
+								setSingleCarState={setSingleCarState}
+							/>
 						</ProtectedRoute>
 					} />
 					
 					{/* Edit page /edit/:id */}
 					<Route path="/edit/:id" element={
 						<ProtectedRoute>
-							<EditPage {...{
-								setCarsState, singleCarState, setSingleCarState
-							}}/>
+							<EditPage 
+								setCarsState={setCarsState}
+								singleCarState={singleCarState}
+								setSingleCarState={setSingleCarState}
+							/>
 						</ProtectedRoute>
 					} />
 					
+					{/* Home page / */}
+					<Route path="/" element={
+						<HomePage 
+							carsState={carsState}
+							errorState={errorState}
+						/>
+					}/>
+
+					{/* Individual car page /cars/:id */}
+					<Route path="/car/:id" element={
+						<CarPage 
+							carsState={carsState}
+						/>
+					}/>
+
 					{/* Redirect any unknown routes to home */}
 					<Route path="*" element={<Navigate to="/" replace />} />
 

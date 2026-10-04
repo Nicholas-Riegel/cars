@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import type { PropTypes } from '../App'
 import './HomePage.css'
 
@@ -13,13 +14,17 @@ function HomePage({carsState, errorState}
 				? <p>{errorState}</p>
 				: (
 					carsState.map((car) => (
-						<div key={car.id} className='car-card'>							
+						<Link 
+							to={`car/${car.id}`}
+							key={car.id} 
+							className='car-card'
+						>							
 							<img className='car-picture'
 								src={`/api/images/${car.imagePath}`} 
 								alt={`${car.make} ${car.model}`} 
 							/>
 							<p>{car.description}</p>
-						</div>
+						</Link>
 					))
 				)
 			}
